@@ -35,7 +35,7 @@ Central Repeater Management for the Auvergne-Rhône-Alpes Ham Radio Repeater net
 ## Installing
 
 ### Prerequisites
-* Apache+PHP stack (developped with a PHP 8.2, untested on older versions).
-* MySQLi
+* Apache+PHP stack (developped with PHP 8.2, untested on older versions).
+* PDO (tested with MySQL).
 * Mosquitto PHP module [Installing Mosquitto for PHP](https://github.com/mgdm/Mosquitto-PHP)
 * Redis (for app and session cache)
