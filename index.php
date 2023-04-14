@@ -12,7 +12,6 @@ $f3->set( 'user_config', $config);
 $f3->set( 'hCache', \Cache::instance());
 
 // Start session with F3
-//new Session( NULL, 'CSRF');
 new Session( '\DefaultCtlr::onSuspectSession', 'CSRF');
 
 // Run access control
