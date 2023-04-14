@@ -35,7 +35,7 @@ class Umbra
 			$dek = sodium_crypto_secretbox_keygen();
 
 			// Seal the DEK with the KEK
-			$wdek = $this->seal( $dek, \UmbraKeys::KEK);
+			$wdek = $this->_seal( $dek, \UmbraKeys::KEK);
 			sodium_memzero($dek);
 
 			$f3->set( 'COOKIE.umbra_wdek', $wdek);
@@ -59,7 +59,7 @@ class Umbra
 		{
 			$sm = new \Umbra();
 			$wdek = $f3->get( 'COOKIE.umbra_wdek');
-			$used_key = $sm->unseal( $wdek, \UmbraKeys::KEK);
+			$used_key = $sm->_unseal( $wdek, \UmbraKeys::KEK);
 		}
 		catch( \Exception $e )
 		{
@@ -104,8 +104,14 @@ class Umbra
 		return $result;
 	}
 
-	// Seal a message with the KEK
-	public function seal( $message, $key = \UmbraKeys::DEK)
+	// Seal a message with the DEK
+	public function seal( $message)
+	{
+		$this->_seal( $message, \UmbraKeys::DEK);
+	}
+	
+	// Seal a message
+	protected function _seal( $message, $key = \UmbraKeys::DEK)
 	{
 		$f3 = \Base::instance();
 
@@ -114,7 +120,7 @@ class Umbra
 		{
 		case \UmbraKeys::DEK:
 			$wdek = $f3->get( 'COOKIE.umbra_wdek');
-			$used_key = $this->unseal( $wdek, \UmbraKeys::KEK);
+			$used_key = $this->_unseal( $wdek, \UmbraKeys::KEK);
 			sodium_memzero($wdek);
 			break;
 		case \UmbraKeys::KEK:
@@ -141,8 +147,14 @@ class Umbra
 		return $result;
 	}
 
-	// Unseal a message with the KEK
-	public function unseal( $sealedValue, $key = \UmbraKeys::DEK)
+	// Unseal a message with the DEK
+	public function unseal( $sealedValue)
+	{
+		$this->_unseal( $sealedValue, \UmbraKeys::DEK);
+	}
+		
+	// Unseal a message
+	protected function _unseal( $sealedValue, $key = \UmbraKeys::DEK)
 	{
 		$f3 = \Base::instance();
 
@@ -151,7 +163,7 @@ class Umbra
 		{
 		case \UmbraKeys::DEK:
 			$wdek = $f3->get( 'COOKIE.umbra_wdek');
-			$used_key = $this->unseal( $wdek, \UmbraKeys::KEK);
+			$used_key = $this->_unseal( $wdek, \UmbraKeys::KEK);
 			sodium_memzero($wdek);
 			break;
 		case \UmbraKeys::KEK:
