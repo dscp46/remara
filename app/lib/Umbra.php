@@ -76,7 +76,7 @@ class Umbra
 	}
 
 	// Generate a local Key Encryption Key, then seals it with the Internal KEK
-	public function generate_wkek()
+	static public function generate_wkek()
 	{
 		// Generate a new Nonce
 		$nonce = random_bytes(SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
@@ -98,8 +98,8 @@ class Umbra
 		$result = sodium_bin2base64($nonce . $ciphertext, SODIUM_BASE64_VARIANT_ORIGINAL);
 
 		// Zeroize unnecessary values
-		sodium_zero( $nonce);
-		sodium_zero( $ciphertext);
+		sodium_memzero( $nonce);
+		sodium_memzero( $ciphertext);
 
 		return $result;
 	}
